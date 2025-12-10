@@ -1,23 +1,21 @@
-import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Nannies from './pages/Nannies';
-import Favorites from './pages/Favorites';
-
-import './App.css'
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Nannies from "./pages/Nannies";
+import Favorites from "./pages/Favorites";
+import Header from "./components/Layout/Header.jsx";
+import "./App.css";
 
 function App() {
- 
-
   return (
     <>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/nannies" element={<Nannies />} />
         <Route path="/favorites" element={<Favorites />} />
       </Routes>
-     
     </>
-  )
+  );
 }
 
-export default App
+export default App;
