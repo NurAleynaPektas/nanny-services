@@ -1,17 +1,24 @@
 .header {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1400px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 16px 40px;
-  border-radius: 24px;
-  margin: 16px auto;
-  max-width: 1200px;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
+  align-items: center;
+  background: transparent;
+  z-index: 10;
+  color: #fff;
+  border-bottom: 1px solid #FBFBFB66;
+  padding: 20px ;
 }
 
+
+
 .logo {
-  font-weight: 700;
+  font-weight: 500;
   font-size: 20px;
   cursor: pointer;
 }
@@ -19,12 +26,15 @@
 .nav {
   display: flex;
   gap: 24px;
+  margin-left: 400px;
 }
 
 .link {
+  font-weight: 400;
   font-size: 16px;
   text-decoration: none;
-  color: #333;
+  color: #fff;
+  cursor: pointer;
 }
 
 .active {
@@ -43,6 +53,7 @@
   background: transparent;
   cursor: pointer;
   font-size: 14px;
+  color: #fff;
 }
 
 .primaryBtn {

@@ -1,0 +1,38 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* PRIMARY COLORS */
+  --red: #F03F3B;
+  --red-light: #F03F3B33;
+
+  --blue: #0957C3;
+  --blue-light: #0957C333;
+
+  --green: #103931;
+  --green-light: #10393133;
+
+  /* SHADOWS */
+  --shadow-soft: 0px 4px 20px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0px 6px 28px rgba(0, 0, 0, 0.12);
+  --shadow-strong: 0px 8px 32px rgba(0, 0, 0, 0.18);
+
+  /* BORDER RADIUS  */
+  --radius-small: 8px;
+  --radius-medium: 16px;
+  --radius-large: 28px;
+  --radius-pill: 999px;
+}
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #f8f9fb;
+  min-height: 100vh;
+  color: #1b1b1b;
+    margin: 0;
+  padding: 0;
+}

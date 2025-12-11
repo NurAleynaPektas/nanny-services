@@ -1,0 +1,124 @@
+.hero {
+ position: relative;
+  min-height: 600px;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  border-radius: var(--radius-large);
+  overflow: hidden;      
+  
+}
+.left {
+ 
+  background-color: var(--blue);
+  color: white;
+  padding: 60px 50px;
+  border-top-left-radius: var(--radius-large);
+  border-bottom-left-radius: var(--radius-large);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.right {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.heroImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.title {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;                
+  font-size: 70px;
+  line-height: 70px;               
+  letter-spacing: -0.03em;       
+  margin-bottom: 20px;
+  max-width: 600px;                
+}
+.subtitle {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;               
+  font-size: 28px;
+  line-height: 30px;
+  letter-spacing: -0.02em;         
+  margin-bottom: 40px;
+  max-width: 500px;
+  opacity: 0.9;                   
+}
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 34px; 
+  width: 250px;      
+  height: 52px;             
+  border-radius: 30px;
+  color: white;
+  font-weight: 600;
+  font-size: 18px;         
+  border: 1px solid white;
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  transition: 0.25s ease;
+  letter-spacing: -0.01em;
+  background-color: transparent;
+
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+ 
+/* Info Card */
+.infoCard {
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
+  background-color: white;
+  padding: 33px 22px;
+  border-radius: var(--radius-medium);
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 2;
+}
+.iconWrapper {
+  background-color: var(--blue);
+  width: 36px;
+  height: 36px;
+  border-radius: 13px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkIcon {
+  color: white;
+  font-size: 20px;
+}
+
+.infoText p {
+  margin: 0;
+  padding: 0;
+}
+
+.infoTitle {
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+
+.infoNumber {
+  font-weight: 700;
+  font-size: 20px;
+  margin-top: 2px;
+}
