@@ -4,11 +4,11 @@
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   border-radius: var(--radius-large);
-  overflow: hidden;      
+  overflow: hidden;   
+     
   
 }
 .left {
- 
   background-color: var(--blue);
   color: white;
   padding: 60px 50px;

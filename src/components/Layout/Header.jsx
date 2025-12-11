@@ -45,7 +45,7 @@ export default function Header() {
         </NavLink>
       </nav>
 
-      <div className={styles.acitons}>
+      <div className={styles.actions}>
         <button className={styles.loginBtn} onClick={handleLoginClick}>
           LogIn
         </button>
