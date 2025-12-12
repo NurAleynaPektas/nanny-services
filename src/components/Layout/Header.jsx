@@ -1,8 +1,13 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import styles from "./Header.module.css";
 
 export default function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Home sayfasında mıyım?
+  const isHome = location.pathname === "/";
+
   const handleLoginClick = () => {
     console.log("openLogin");
   };
@@ -12,7 +17,7 @@ export default function Header() {
   };
 
   return (
-    <header className={styles.header}>
+    <header className={isHome ? styles.headerHome : styles.headerDefault}>
       <div className={styles.logo} onClick={() => navigate("/")}>
         Nanny.Services
       </div>
@@ -35,6 +40,7 @@ export default function Header() {
         >
           Nannies
         </NavLink>
+
         <NavLink
           to="/favorites"
           className={({ isActive }) =>
