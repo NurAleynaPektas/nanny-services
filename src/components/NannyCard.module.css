@@ -1,0 +1,68 @@
+.card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(15, 35, 52, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+.mainInfo {
+  flex: 1;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.location {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.price {
+  font-weight: 600;
+  color: var(--blue);
+}
+
+/* Meta info */
+.meta {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* About */
+.about {
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+/* Read more */
+.readMoreBtn {
+  align-self: flex-start;
+  background: transparent;
+  border: none;
+  color: var(--blue);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}

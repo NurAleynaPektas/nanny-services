@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Nannies from "./pages/Nannies";
 import Favorites from "./pages/Favorites";
-import Header from "./components/Layout/Header.jsx";
+import Header from "./components/Header.jsx";
 import "./App.css";
 
 function App() {

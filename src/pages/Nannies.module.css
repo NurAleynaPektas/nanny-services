@@ -6,11 +6,15 @@
 .content {
   display: flex;
     flex-direction: column;
+    gap: 24px;
 }
 /*Filters*/
 .sidebar {
-    width: 300px;
   padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: fit-content;
 }
 
 .sidebarTitle {

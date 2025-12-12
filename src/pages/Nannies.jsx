@@ -1,9 +1,10 @@
 import { useState } from "react";
 import styles from "./Nannies.module.css";
-
+import babysitters from "../data/babysitters.json";
+import NannyCard from "../components/NannyCard";
 export default function Nannies() {
-  const [filter, setFilter] = useState("all"); 
-
+  const [filter, setFilter] = useState("all");
+  const visibleNannies = babysitters.slice(0, 3);
   return (
     <main className={styles.page}>
       <div className={styles.content}>
@@ -28,15 +29,9 @@ export default function Nannies() {
 
         {/* SAĞ: Kartlar alanı */}
         <section className={styles.list}>
-          <article className={styles.cardPlaceholder}>
-            Nanny card placeholder
-          </article>
-          <article className={styles.cardPlaceholder}>
-            Nanny card placeholder
-          </article>
-          <article className={styles.cardPlaceholder}>
-            Nanny card placeholder
-          </article>
+          {visibleNannies.map((nanny, idx) => (
+            <NannyCard key={nanny.name ?? idx} nanny={nanny} />
+          ))}
         </section>
       </div>
 
