@@ -78,6 +78,7 @@
 }
 
 .reviewItem {
+   max-width: 300px;
   background: #f6f8ff;
   border-radius: 12px;
   padding: 12px;
@@ -87,6 +88,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 6px;
+  max-width: 300px;
 }
 
 .reviewComment {
