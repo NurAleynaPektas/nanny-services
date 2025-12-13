@@ -1,6 +1,8 @@
+import { useState } from "react";
 import styles from "./NannyCard.module.css";
 
 export default function NannyCard({ nanny }) {
+    const [isOpen, setIsOpen] = useState(false);
   return (
     <article className={styles.card}>
       {/* ÜST KISIM */}
@@ -26,9 +28,65 @@ export default function NannyCard({ nanny }) {
         <span>Rating: {nanny.rating}</span>
       </div>
 
-      <p className={styles.about}>{nanny.about.slice(0, 120)}...</p>
+      <p className={styles.about}>
+        {isOpen ? nanny.about : `${nanny.about.slice(0, 120)}...`}
+      </p>
+      {isOpen && (
+        <div className={styles.extra}>
+          <p>
+            <strong>Education:</strong> {nanny.education}
+          </p>
+          {isOpen && (
+            <div className={styles.extra}>
+              <p>
+                <strong>Education:</strong> {nanny.education}
+              </p>
 
-      <button className={styles.readMoreBtn}>Read more</button>
+              <p>
+                <strong>Characters:</strong>{" "}
+                {Array.isArray(nanny.characters)
+                  ? nanny.characters.join(", ")
+                  : nanny.characters}
+              </p>
+
+              <div className={styles.reviews}>
+                <p className={styles.reviewsTitle}>
+                  <strong>Reviews:</strong>
+                </p>
+
+                {Array.isArray(nanny.reviews) ? (
+                  nanny.reviews.map((r, idx) => (
+                    <div
+                      key={`${r.reviewer ?? "review"}-${idx}`}
+                      className={styles.reviewItem}
+                    >
+                      <p className={styles.reviewTop}>
+                        <span>
+                          <strong>{r.reviewer}</strong>
+                        </span>
+                        <span>⭐ {r.rating}</span>
+                      </p>
+                      <p className={styles.reviewComment}>{r.comment}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className={styles.reviewComment}>No reviews</p>
+                )}
+              </div>
+            </div>
+          )}
+
+          <p>
+            <strong>Characters:</strong> {nanny.characters.join(", ")}
+          </p>
+        </div>
+      )}
+      <button
+        className={styles.readMoreBtn}
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
+        {isOpen ? "Show less" : "Read more"}
+      </button>
     </article>
   );
 }

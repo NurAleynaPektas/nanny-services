@@ -55,6 +55,11 @@
   line-height: 1.5;
   opacity: 0.9;
 }
+.extra {
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.9;
+}
 
 /* Read more */
 .readMoreBtn {
@@ -65,4 +70,31 @@
   font-weight: 500;
   cursor: pointer;
   padding: 0;
+}
+.reviews {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reviewItem {
+  background: #f6f8ff;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.reviewTop {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.reviewComment {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.reviewsTitle {
+  margin: 0 0 6px 0;
 }
