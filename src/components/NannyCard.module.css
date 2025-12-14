@@ -100,3 +100,22 @@
 .reviewsTitle {
   margin: 0 0 6px 0;
 }
+.appointmentBtn {
+  width: 250px;
+  margin-top: 12px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: none;
+  background: var(--blue);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  transition: 0.2s ease;
+}
+
+.appointmentBtn:hover {
+  box-shadow: var(--shadow-medium);
+  transform: translateY(-1px);
+}

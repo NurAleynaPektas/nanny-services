@@ -20,14 +20,12 @@ export default function NannyCard({ nanny }) {
 
         <span className={styles.price}>${nanny.price_per_hour}/hr</span>
       </div>
-
       {/* ALT KISIM */}
       <div className={styles.meta}>
         <span>Experience: {nanny.experience} yrs</span>
         <span>Kids age: {nanny.kids_age}</span>
         <span>Rating: {nanny.rating}</span>
       </div>
-
       <p className={styles.about}>
         {isOpen ? nanny.about : `${nanny.about.slice(0, 120)}...`}
       </p>
@@ -87,6 +85,9 @@ export default function NannyCard({ nanny }) {
       >
         {isOpen ? "Show less" : "Read more"}
       </button>
+      {isOpen && (
+        <button className={styles.appointmentBtn}>Make an appointment</button>
+      )}
     </article>
   );
 }
