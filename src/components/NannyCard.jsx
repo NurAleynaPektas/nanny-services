@@ -1,11 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./NannyCard.module.css";
+import AppointmentForm from "./AppointmentForm";
 
 export default function NannyCard({ nanny }) {
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isModalOpen) return;
+
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") setIsModalOpen(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isModalOpen]);
+
   return (
     <article className={styles.card}>
-      {/* ÜST KISIM */}
+      {/* HEADER */}
       <div className={styles.header}>
         <img
           src={nanny.avatar_url}
@@ -20,73 +34,115 @@ export default function NannyCard({ nanny }) {
 
         <span className={styles.price}>${nanny.price_per_hour}/hr</span>
       </div>
-      {/* ALT KISIM */}
+
+      {/* META */}
       <div className={styles.meta}>
         <span>Experience: {nanny.experience} yrs</span>
         <span>Kids age: {nanny.kids_age}</span>
         <span>Rating: {nanny.rating}</span>
       </div>
+
+      {/* ABOUT */}
       <p className={styles.about}>
         {isOpen ? nanny.about : `${nanny.about.slice(0, 120)}...`}
       </p>
+
+      {/* EXTRA INFO (SADECE OPEN IKEN) */}
       {isOpen && (
         <div className={styles.extra}>
           <p>
             <strong>Education:</strong> {nanny.education}
           </p>
-          {isOpen && (
-            <div className={styles.extra}>
-              <p>
-                <strong>Education:</strong> {nanny.education}
-              </p>
-
-              <p>
-                <strong>Characters:</strong>{" "}
-                {Array.isArray(nanny.characters)
-                  ? nanny.characters.join(", ")
-                  : nanny.characters}
-              </p>
-
-              <div className={styles.reviews}>
-                <p className={styles.reviewsTitle}>
-                  <strong>Reviews:</strong>
-                </p>
-
-                {Array.isArray(nanny.reviews) ? (
-                  nanny.reviews.map((r, idx) => (
-                    <div
-                      key={`${r.reviewer ?? "review"}-${idx}`}
-                      className={styles.reviewItem}
-                    >
-                      <p className={styles.reviewTop}>
-                        <span>
-                          <strong>{r.reviewer}</strong>
-                        </span>
-                        <span>⭐ {r.rating}</span>
-                      </p>
-                      <p className={styles.reviewComment}>{r.comment}</p>
-                    </div>
-                  ))
-                ) : (
-                  <p className={styles.reviewComment}>No reviews</p>
-                )}
-              </div>
-            </div>
-          )}
 
           <p>
-            <strong>Characters:</strong> {nanny.characters.join(", ")}
+            <strong>Characters:</strong>{" "}
+            {Array.isArray(nanny.characters)
+              ? nanny.characters.join(", ")
+              : nanny.characters}
           </p>
+
+          <div className={styles.reviews}>
+            <p className={styles.reviewsTitle}>
+              <strong>Reviews:</strong>
+            </p>
+
+            {Array.isArray(nanny.reviews) ? (
+              nanny.reviews.map((r, idx) => (
+                <div
+                  key={`${r.reviewer ?? "review"}-${idx}`}
+                  className={styles.reviewItem}
+                >
+                  <p className={styles.reviewTop}>
+                    <span>
+                      <strong>{r.reviewer}</strong>
+                    </span>
+                    <span>⭐ {r.rating}</span>
+                  </p>
+                  <p className={styles.reviewComment}>{r.comment}</p>
+                </div>
+              ))
+            ) : (
+              <p className={styles.reviewComment}>No reviews</p>
+            )}
+          </div>
+
+          {/* APPOINTMENT BUTTON */}
+          <button
+            className={styles.appointmentBtn}
+            onClick={() => setIsModalOpen(true)}
+          >
+            Make an appointment
+          </button>
         </div>
       )}
+
+      {/* READ MORE */}
       <button
         className={styles.readMoreBtn}
         onClick={() => setIsOpen((prev) => !prev)}
       >
         {isOpen ? "Show less" : "Read more"}
       </button>
-      {isOpen && (
-        <button className={styles.appointmentBtn}>Make an appointment</button>
+
+      {/* MODAL */}
+      {isModalOpen && (
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <button
+              className={styles.closeBtn}
+              onClick={() => setIsModalOpen(false)}
+            >
+              ✕
+            </button>
+
+            <h3>Make an appointment</h3>
+            {isModalOpen && (
+              <div className={styles.modalOverlay}>
+                <div
+                  className={styles.modal}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button
+                    className={styles.closeBtn}
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    ✕
+                  </button>
+
+                  <h3>Make an appointment</h3>
+
+                  <AppointmentForm
+                    nannyName={nanny.name}
+                    onClose={() => setIsModalOpen(false)}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       )}
     </article>
   );
