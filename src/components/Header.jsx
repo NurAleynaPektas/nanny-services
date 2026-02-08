@@ -151,7 +151,7 @@ export default function Header() {
 
           <div className={styles.dropdownActions}>
             <button className={styles.loginBtnLight} onClick={handleLoginClick}>
-              LogIn
+              Log In
             </button>
             <button
               className={`${styles.loginBtnLight} ${styles.primaryBtnLight}`}
