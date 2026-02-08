@@ -1,48 +1,62 @@
-
-.headerHome {
+.headerHomeWrap {
   position: absolute;
-  top: 24px;
+  top: 14px;
   left: 50%;
   transform: translateX(-50%);
-  width: 100%;
+  width: calc(100% - 24px);
   max-width: 1400px;
+  z-index: 50;
+}
 
+.headerDefaultWrap {
+  position: relative;
+  width: 100%;
+  z-index: 50;
+}
+
+/* HEADER BAR */
+.headerHome {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  background: transparent;
+  background: var(--accent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   color: #fff;
-  border-bottom: 1px solid #FBFBFB66;
+  border: 1px solid rgba(251, 251, 251, 0.18);
+  padding: 12px 14px;
+}
 
-  padding: 20px;
-  z-index: 10;
-}
-.headerHome .nav {
-  transform: translateX(200px); 
-}
 .headerDefault {
   width: 100%;
-  height: 90px;
-  background: var(--blue);
+  height: 72px;
+  background: var(--accent);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 40px;
+
+  padding: 0 14px;
   color: #fff;
-  position: relative;
-  z-index: 10;
 }
+
 .logo {
   font-weight: 500;
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;
+  user-select: none;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .nav {
-  display: flex;
+  display: none;
   gap: 24px;
- justify-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .link {
@@ -51,21 +65,25 @@
   text-decoration: none;
   color: #fff;
   cursor: pointer;
+  opacity: 0.92;
 }
 
 .active {
   font-weight: 600;
+  opacity: 1;
 }
 
-.actions {
-  display: flex;
+.desktopActions {
+  display: none;
   gap: 12px;
+  align-items: center;
 }
 
+/* Desktop buttons */
 .loginBtn {
-  padding: 8px 20px;
+  padding: 8px 18px;
   border-radius: 999px;
-  border: 1px solid #d0d7ff;
+  border: 1px solid rgba(208, 215, 255, 0.9);
   background: transparent;
   cursor: pointer;
   font-size: 14px;
@@ -73,7 +91,149 @@
 }
 
 .primaryBtn {
-  background: #2068ff;
+  background: var(--accent);
   color: #fff;
-  border-color: #2068ff;
+  border-color: var(--accent);
+}
+
+/* Burger  */
+.burger {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  border: 1px solid rgba(251, 251, 251, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.burgerLine {
+  display: block;
+  width: 4px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+.dropdown {
+  margin-top: 10px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-medium);
+  overflow: hidden;
+}
+
+.dropdownNav {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdownLink {
+  padding: 14px 14px;
+  color: #1b1b1b;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.dropdownLink:last-child {
+  border-bottom: none;
+}
+
+.dropdownActive {
+  background: var(--accent-soft);
+}
+
+.dropdownActions {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.loginBtnLight {
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  color: #1b1b1b;
+}
+
+.primaryBtnLight {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/*TABLET 768px*/
+@media (min-width: 768px) {
+  .logo {
+    font-size: 20px;
+  }
+
+  .headerHomeWrap {
+    top: 18px;
+    width: calc(100% - 40px);
+  }
+
+  .headerHome {
+    padding: 16px 18px;
+  }
+
+  .headerDefault {
+    height: 84px;
+    padding: 0 24px;
+  }
+
+  .dropdownActions {
+    justify-content: flex-end;
+  }
+}
+
+/*DESKTOP 1020px*/
+@media (min-width: 1020px) {
+  .headerHomeWrap {
+    top: 24px;
+    width: 100%;
+  }
+
+  .headerHome {
+    padding: 20px;
+    border-radius: 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #fbfbfb66;
+  }
+
+  .headerHome .nav {
+    transform: translateX(200px);
+  }
+
+  .headerDefault {
+    height: 90px;
+    padding: 0 40px;
+  }
+
+  .nav {
+    display: flex;
+  }
+
+  .burger {
+    display: none;
+  }
+
+  .desktopActions {
+    display: flex;
+  }
+
+  .dropdown {
+    display: none;
+  }
 }
