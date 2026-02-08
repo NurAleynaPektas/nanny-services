@@ -66,7 +66,7 @@ export default function NannyCard({ nanny }) {
               <strong>Reviews:</strong>
             </p>
 
-            {Array.isArray(nanny.reviews) ? (
+            {Array.isArray(nanny.reviews) && nanny.reviews.length > 0 ? (
               nanny.reviews.map((r, idx) => (
                 <div
                   key={`${r.reviewer ?? "review"}-${idx}`}
@@ -104,43 +104,29 @@ export default function NannyCard({ nanny }) {
         {isOpen ? "Show less" : "Read more"}
       </button>
 
-      {/* MODAL */}
+      {/* MODAL (TEK) */}
       {isModalOpen && (
         <div
           className={styles.modalOverlay}
           onClick={() => setIsModalOpen(false)}
+          role="dialog"
+          aria-modal="true"
         >
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <button
               className={styles.closeBtn}
               onClick={() => setIsModalOpen(false)}
+              aria-label="Close"
             >
               ✕
             </button>
 
-            <h3>Make an appointment</h3>
-            {isModalOpen && (
-              <div className={styles.modalOverlay}>
-                <div
-                  className={styles.modal}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <button
-                    className={styles.closeBtn}
-                    onClick={() => setIsModalOpen(false)}
-                  >
-                    ✕
-                  </button>
+            <h3 className={styles.modalTitle}>Make an appointment</h3>
 
-                  <h3>Make an appointment</h3>
-
-                  <AppointmentForm
-                    nannyName={nanny.name}
-                    onClose={() => setIsModalOpen(false)}
-                  />
-                </div>
-              </div>
-            )}
+            <AppointmentForm
+              nannyName={nanny.name}
+              onClose={() => setIsModalOpen(false)}
+            />
           </div>
         </div>
       )}

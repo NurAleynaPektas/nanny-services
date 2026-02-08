@@ -1,26 +1,27 @@
 .page {
-   
-  padding-top: 120px;     
+  padding-top: 92px; 
 }
 
+/* Layout */
 .content {
   display: flex;
-    flex-direction: column;
-    gap: 24px;
+  flex-direction: column;
+  gap: 16px;
 }
-/*Filters*/
+
+/* Filters */
 .sidebar {
-  padding-top: 16px;
+  padding-top: 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: fit-content;
+  width: 100%;
 }
 
 .sidebarTitle {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   opacity: 0.8;
 }
 
@@ -29,17 +30,23 @@
   padding: 10px 12px;
   border-radius: 12px;
   border: 1px solid #d0d7ff;
-  background: #0957c3;
+  background: var(--accent);
   color: #fff;
   font-size: 14px;
   cursor: pointer;
 }
 
-/* ALT TARAF – liste alanı */
+/* Liste */
 .list {
+  width: 100%;            
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  align-items: stretch;   
+  gap: 16px;
+}
+
+.list > * {
+  width: 100%;            
 }
 
 .cardPlaceholder {
@@ -58,17 +65,17 @@
 .loadMoreWrapper {
   display: flex;
   justify-content: center;
-  margin-top: 32px;
+  margin-top: 24px;
 }
 
 .loadMoreBtn {
-  padding: 12px 40px;
+  padding: 12px 28px; 
   border-radius: 999px;
   border: none;
-  background: #0957c3;
+  background: var(--accent);
   color: #fff;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   box-shadow: var(--shadow-soft);
   transition: 0.2s ease;
@@ -77,4 +84,77 @@
 .loadMoreBtn:hover {
   box-shadow: var(--shadow-medium);
   transform: translateY(-1px);
+}
+
+/* TABLET 768px */
+@media (min-width: 768px) {
+  .page {
+    padding-top: 108px;
+  }
+
+  .content {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding-top: 16px;
+    position: sticky;
+    top: 110px;
+  }
+
+  .list {
+    gap: 24px;
+  }
+
+  .loadMoreWrapper {
+    margin-top: 28px;
+  }
+
+  .loadMoreBtn {
+    padding: 12px 36px;
+    font-size: 16px;
+  }
+}
+
+/*DESKTOP 1020px*/
+@media (min-width: 1020px) {
+  .page {
+    padding-top: 120px; 
+  }
+
+  .content {
+    display: flex; 
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .sidebar {
+    padding-top: 16px; 
+    width: fit-content;
+    position: static;
+  }
+
+  .list {
+    display: flex;       
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  .list > * {
+    width: 100%;
+  }
+
+  .loadMoreWrapper {
+    margin-top: 32px; 
+  }
+
+  .loadMoreBtn {
+    padding: 12px 40px; 
+    font-size: 16px;
+  }
 }

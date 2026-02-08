@@ -1,4 +1,5 @@
 .card {
+  width: 100%;
   background: #ffffff;
   border-radius: 24px;
   padding: 24px;
@@ -24,6 +25,7 @@
 
 .mainInfo {
   flex: 1;
+  min-width: 0;
 }
 
 .name {
@@ -38,23 +40,25 @@
 
 .price {
   font-weight: 600;
-  color: var(--blue);
+  color: var(--accent);
+  white-space: nowrap;
 }
 
 /* Meta info */
 .meta {
-  display: flex;
-  gap: 16px;
+  display: flex;      
+  flex-wrap: wrap;
+  gap: 12px 16px;
   font-size: 14px;
   opacity: 0.8;
 }
 
-/* About */
 .about {
   font-size: 14px;
   line-height: 1.5;
   opacity: 0.9;
 }
+
 .extra {
   font-size: 14px;
   line-height: 1.5;
@@ -66,11 +70,12 @@
   align-self: flex-start;
   background: transparent;
   border: none;
-  color: var(--blue);
+  color: var(--accent);
   font-weight: 500;
   cursor: pointer;
   padding: 0;
 }
+
 .reviews {
   display: flex;
   flex-direction: column;
@@ -78,7 +83,8 @@
 }
 
 .reviewItem {
-   max-width: 300px;
+  width: 100%;
+  max-width: none;
   background: #f6f8ff;
   border-radius: 12px;
   padding: 12px;
@@ -88,7 +94,8 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 6px;
-  max-width: 300px;
+  width: 100%;
+  max-width: none;
 }
 
 .reviewComment {
@@ -100,13 +107,14 @@
 .reviewsTitle {
   margin: 0 0 6px 0;
 }
+
 .appointmentBtn {
   width: 250px;
   margin-top: 12px;
   padding: 10px 20px;
   border-radius: 12px;
   border: none;
-  background: var(--blue);
+  background: var(--accent);
   color: #fff;
   font-size: 14px;
   font-weight: 500;
@@ -119,6 +127,8 @@
   box-shadow: var(--shadow-medium);
   transform: translateY(-1px);
 }
+
+/* Modal */
 .modalOverlay {
   position: fixed;
   inset: 0;
@@ -127,6 +137,7 @@
   align-items: center;
   justify-content: center;
   z-index: 100;
+  padding: 16px;
 }
 
 .modal {
@@ -137,6 +148,10 @@
   max-width: 420px;
   position: relative;
   box-shadow: var(--shadow-strong);
+}
+
+.modalTitle {
+  margin-bottom: 12px;
 }
 
 .closeBtn {
