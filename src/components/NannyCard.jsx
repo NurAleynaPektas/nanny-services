@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import styles from "./NannyCard.module.css";
 import AppointmentForm from "./AppointmentForm";
+import { isFavorite, toggleFavorite } from "../utils/favorites";
 
 export default function NannyCard({ nanny }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [favorite, setFavorite] = useState(() => isFavorite(nanny?.name));
+
+  useEffect(() => {
+    setFavorite(isFavorite(nanny?.name));
+  }, [nanny?.name]);
 
   useEffect(() => {
     if (!isModalOpen) return;
@@ -16,6 +22,11 @@ export default function NannyCard({ nanny }) {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [isModalOpen]);
+
+  const onToggleFavorite = () => {
+    toggleFavorite(nanny);
+    setFavorite((p) => !p);
+  };
 
   return (
     <article className={styles.card}>
@@ -33,6 +44,16 @@ export default function NannyCard({ nanny }) {
         </div>
 
         <span className={styles.price}>${nanny.price_per_hour}/hr</span>
+
+        <button
+          type="button"
+          className={`${styles.favBtn} ${favorite ? styles.favActive : ""}`}
+          onClick={onToggleFavorite}
+          aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
+          title={favorite ? "Remove from favorites" : "Add to favorites"}
+        >
+          {favorite ? "★" : "☆"}
+        </button>
       </div>
 
       {/* META */}
@@ -47,7 +68,7 @@ export default function NannyCard({ nanny }) {
         {isOpen ? nanny.about : `${nanny.about.slice(0, 120)}...`}
       </p>
 
-      {/* EXTRA INFO (SADECE OPEN IKEN) */}
+      {/* EXTRA INFO */}
       {isOpen && (
         <div className={styles.extra}>
           <p>
@@ -86,7 +107,6 @@ export default function NannyCard({ nanny }) {
             )}
           </div>
 
-          {/* APPOINTMENT BUTTON */}
           <button
             className={styles.appointmentBtn}
             onClick={() => setIsModalOpen(true)}
@@ -104,7 +124,7 @@ export default function NannyCard({ nanny }) {
         {isOpen ? "Show less" : "Read more"}
       </button>
 
-      {/* MODAL (TEK) */}
+      {/* MODAL */}
       {isModalOpen && (
         <div
           className={styles.modalOverlay}
