@@ -3,7 +3,7 @@ import styles from "./Nannies.module.css";
 import babysitters from "../data/babysitters.json";
 import NannyCard from "../components/NannyCard";
 
-export default function Nannies() {
+export default function Nannies({ openAuth }) {
   const [filter, setFilter] = useState("all");
 
   const visibleNannies = useMemo(() => {
@@ -39,13 +39,12 @@ export default function Nannies() {
         break;
     }
 
-    return list.slice(0, 6); // şimdilik 6 göster
+    return list.slice(0, 6);
   }, [filter]);
 
   return (
     <main className={styles.page}>
       <div className={styles.content}>
-        {/* SOL: Filters */}
         <aside className={styles.sidebar}>
           <p className={styles.sidebarTitle}>Filters</p>
 
@@ -64,15 +63,17 @@ export default function Nannies() {
           </select>
         </aside>
 
-        {/* SAĞ: Kartlar */}
         <section className={styles.list}>
           {visibleNannies.map((nanny, idx) => (
-            <NannyCard key={nanny.name ?? idx} nanny={nanny} />
+            <NannyCard
+              key={nanny.name ?? idx}
+              nanny={nanny}
+              openAuth={openAuth}
+            />
           ))}
         </section>
       </div>
 
-      {/* ALT: Load more (şimdilik dummy) */}
       <div className={styles.loadMoreWrapper}>
         <button className={styles.loadMoreBtn}>Load more</button>
       </div>

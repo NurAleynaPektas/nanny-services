@@ -2,6 +2,9 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import styles from "./AuthModal.module.css";
 
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
+
 const RegisterSchema = Yup.object({
   name: Yup.string()
     .min(2, "Name must be at least 2 characters")
@@ -31,16 +34,25 @@ export default function RegisterForm({ onSuccess, onSwitch }) {
       validateOnChange={false}
       onSubmit={(values, { setSubmitting }) => {
         try {
-         
+          const name = values.name.trim();
+          const email = values.email.trim();
+
           localStorage.setItem(
             "nanny-auth",
             JSON.stringify({
-              name: values.name.trim(),
-              email: values.email.trim(),
+              name,
+              email,
             }),
           );
 
-          onSuccess();
+          iziToast.success({
+            title: "Account created!",
+            message: "You registered successfully.",
+            position: "topRight",
+            timeout: 2200,
+          });
+
+          onSuccess?.();
         } finally {
           setSubmitting(false);
         }
@@ -56,7 +68,6 @@ export default function RegisterForm({ onSuccess, onSwitch }) {
         errors,
       }) => (
         <form onSubmit={handleSubmit} className={styles.form} noValidate>
-          {/* NAME */}
           <label className={styles.label}>
             Name
             <input
@@ -73,7 +84,6 @@ export default function RegisterForm({ onSuccess, onSwitch }) {
             )}
           </label>
 
-          {/* EMAIL */}
           <label className={styles.label}>
             Email
             <input
@@ -91,7 +101,6 @@ export default function RegisterForm({ onSuccess, onSwitch }) {
             )}
           </label>
 
-          {/* PASSWORD */}
           <label className={styles.label}>
             Password
             <input
@@ -109,7 +118,6 @@ export default function RegisterForm({ onSuccess, onSwitch }) {
             )}
           </label>
 
-          {/* CONFIRM PASSWORD */}
           <label className={styles.label}>
             Confirm password
             <input
@@ -127,7 +135,6 @@ export default function RegisterForm({ onSuccess, onSwitch }) {
             )}
           </label>
 
-          {/* SUBMIT */}
           <button
             className={styles.submitBtn}
             type="submit"
@@ -136,7 +143,6 @@ export default function RegisterForm({ onSuccess, onSwitch }) {
             {isSubmitting ? "Creating..." : "Register"}
           </button>
 
-          {/* SWITCH */}
           <p className={styles.switchText}>
             Already have an account?{" "}
             <button

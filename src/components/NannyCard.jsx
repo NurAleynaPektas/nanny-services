@@ -3,7 +3,21 @@ import styles from "./NannyCard.module.css";
 import AppointmentForm from "./AppointmentForm";
 import { isFavorite, toggleFavorite } from "../utils/favorites";
 
-export default function NannyCard({ nanny }) {
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
+
+function isAuthed() {
+  try {
+    const raw = localStorage.getItem("nanny-auth");
+    if (!raw) return false;
+    const parsed = JSON.parse(raw);
+    return Boolean(parsed?.email || parsed?.name);
+  } catch {
+    return false;
+  }
+}
+
+export default function NannyCard({ nanny, openAuth }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [favorite, setFavorite] = useState(() => isFavorite(nanny?.name));
@@ -24,13 +38,41 @@ export default function NannyCard({ nanny }) {
   }, [isModalOpen]);
 
   const onToggleFavorite = () => {
+    if (!isAuthed()) {
+      iziToast.warning({
+        title: "Login required",
+        message: "Please log in to add favorites.",
+        position: "topRight",
+        timeout: 2200,
+      });
+      openAuth?.("login");
+      return;
+    }
+
+    const nextFavorite = !favorite;
+
     toggleFavorite(nanny);
-    setFavorite((p) => !p);
+    setFavorite(nextFavorite);
+
+    if (nextFavorite) {
+      iziToast.success({
+        title: "Added",
+        message: "Added to favorites.",
+        position: "topRight",
+        timeout: 1600,
+      });
+    } else {
+      iziToast.info({
+        title: "Removed",
+        message: "Removed from favorites.",
+        position: "topRight",
+        timeout: 1600,
+      });
+    }
   };
 
   return (
     <article className={styles.card}>
-      {/* HEADER */}
       <div className={styles.header}>
         <img
           src={nanny.avatar_url}
@@ -50,25 +92,28 @@ export default function NannyCard({ nanny }) {
           className={`${styles.favBtn} ${favorite ? styles.favActive : ""}`}
           onClick={onToggleFavorite}
           aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
-          title={favorite ? "Remove from favorites" : "Add to favorites"}
+          title={
+            isAuthed()
+              ? favorite
+                ? "Remove from favorites"
+                : "Add to favorites"
+              : "Log in to add favorites"
+          }
         >
           {favorite ? "★" : "☆"}
         </button>
       </div>
 
-      {/* META */}
       <div className={styles.meta}>
         <span>Experience: {nanny.experience} yrs</span>
         <span>Kids age: {nanny.kids_age}</span>
         <span>Rating: {nanny.rating}</span>
       </div>
 
-      {/* ABOUT */}
       <p className={styles.about}>
         {isOpen ? nanny.about : `${nanny.about.slice(0, 120)}...`}
       </p>
 
-      {/* EXTRA INFO */}
       {isOpen && (
         <div className={styles.extra}>
           <p>
@@ -116,7 +161,6 @@ export default function NannyCard({ nanny }) {
         </div>
       )}
 
-      {/* READ MORE */}
       <button
         className={styles.readMoreBtn}
         onClick={() => setIsOpen((prev) => !prev)}
@@ -124,7 +168,6 @@ export default function NannyCard({ nanny }) {
         {isOpen ? "Show less" : "Read more"}
       </button>
 
-      {/* MODAL */}
       {isModalOpen && (
         <div
           className={styles.modalOverlay}

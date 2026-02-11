@@ -2,6 +2,9 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import styles from "./AuthModal.module.css";
 
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
+
 const LoginSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email address")
@@ -20,15 +23,23 @@ export default function LoginForm({ onSuccess, onSwitch }) {
       validateOnChange={false}
       onSubmit={(values, { setSubmitting }) => {
         try {
-       
+          const email = values.email.trim();
+
           localStorage.setItem(
             "nanny-auth",
             JSON.stringify({
-              email: values.email.trim(),
+              email,
             }),
           );
 
-          onSuccess();
+          iziToast.success({
+            title: "Welcome!",
+            message: "You are logged in successfully.",
+            position: "topRight",
+            timeout: 2000,
+          });
+
+          onSuccess?.();
         } finally {
           setSubmitting(false);
         }
@@ -44,7 +55,6 @@ export default function LoginForm({ onSuccess, onSwitch }) {
         errors,
       }) => (
         <form onSubmit={handleSubmit} className={styles.form} noValidate>
-          {/* EMAIL */}
           <label className={styles.label}>
             Email
             <input
@@ -62,7 +72,6 @@ export default function LoginForm({ onSuccess, onSwitch }) {
             )}
           </label>
 
-          {/* PASSWORD */}
           <label className={styles.label}>
             Password
             <input
@@ -80,7 +89,6 @@ export default function LoginForm({ onSuccess, onSwitch }) {
             )}
           </label>
 
-          {/* SUBMIT */}
           <button
             className={styles.submitBtn}
             type="submit"
@@ -89,7 +97,6 @@ export default function LoginForm({ onSuccess, onSwitch }) {
             {isSubmitting ? "Logging in..." : "Log In"}
           </button>
 
-          {/* SWITCH */}
           <p className={styles.switchText}>
             Don&apos;t have an account?{" "}
             <button
