@@ -5,6 +5,9 @@ import styles from "./AuthModal.module.css";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../firebase"; 
+
 const RegisterSchema = Yup.object({
   name: Yup.string()
     .min(2, "Name must be at least 2 characters")
@@ -20,30 +23,40 @@ const RegisterSchema = Yup.object({
     .required("Please confirm your password"),
 });
 
+function toastFirebaseError(err) {
+  const code = err?.code || "";
+
+  if (code === "auth/email-already-in-use")
+    return "This email is already in use.";
+  if (code === "auth/invalid-email") return "Invalid email address.";
+  if (code === "auth/weak-password") return "Password is too weak (min 6).";
+  if (code === "auth/network-request-failed")
+    return "Network error. Try again.";
+
+  return "Something went wrong. Please try again.";
+}
+
 export default function RegisterForm({ onSuccess, onSwitch }) {
   return (
     <Formik
-      initialValues={{
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      }}
+      initialValues={{ name: "", email: "", password: "", confirmPassword: "" }}
       validationSchema={RegisterSchema}
       validateOnBlur
       validateOnChange={false}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={async (values, { setSubmitting }) => {
         try {
           const name = values.name.trim();
           const email = values.email.trim();
-
-          localStorage.setItem(
-            "nanny-auth",
-            JSON.stringify({
-              name,
-              email,
-            }),
+          const password = values.password;
+          const cred = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password,
           );
+
+          if (name) {
+            await updateProfile(cred.user, { displayName: name });
+          }
 
           iziToast.success({
             title: "Account created!",
@@ -53,6 +66,13 @@ export default function RegisterForm({ onSuccess, onSwitch }) {
           });
 
           onSuccess?.();
+        } catch (err) {
+          iziToast.error({
+            title: "Register failed",
+            message: toastFirebaseError(err),
+            position: "topRight",
+            timeout: 2600,
+          });
         } finally {
           setSubmitting(false);
         }

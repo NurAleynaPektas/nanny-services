@@ -3,8 +3,12 @@ import styles from "./AuthModal.module.css";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 
-export default function AuthModal({ mode = "login", onClose, onSwitchMode }) {
-  /* ESC + body scroll lock */
+export default function AuthModal({
+  mode = "login",
+  onClose,
+  onSwitchMode,
+  onSuccess, 
+}) {
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape") onClose();
@@ -18,6 +22,11 @@ export default function AuthModal({ mode = "login", onClose, onSwitchMode }) {
       window.removeEventListener("keydown", onKey);
     };
   }, [onClose]);
+
+  const handleSuccess = () => {
+    if (onSuccess) return onSuccess();
+    onClose();
+  };
 
   return (
     <div
@@ -49,12 +58,12 @@ export default function AuthModal({ mode = "login", onClose, onSwitchMode }) {
 
         {mode === "login" ? (
           <LoginForm
-            onSuccess={onClose}
+            onSuccess={handleSuccess} 
             onSwitch={() => onSwitchMode("register")}
           />
         ) : (
           <RegisterForm
-            onSuccess={onClose}
+            onSuccess={handleSuccess} 
             onSwitch={() => onSwitchMode("login")}
           />
         )}

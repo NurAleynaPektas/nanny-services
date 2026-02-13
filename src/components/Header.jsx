@@ -1,8 +1,10 @@
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import styles from "./Header.module.css";
+import { useAuth } from "../auth/AuthProvider";
 
 export default function Header({ openAuth }) {
+  const { user, logout, booting } = useAuth(); 
   const navigate = useNavigate();
   const location = useLocation();
   const isHome = location.pathname === "/";
@@ -18,6 +20,16 @@ export default function Header({ openAuth }) {
   const handleRegisterClick = () => {
     openAuth?.("register");
     setMenuOpen(false);
+  };
+
+  const handleLogoutClick = async () => {
+    try {
+      await logout();
+      setMenuOpen(false);
+      navigate("/");
+    } catch {
+      // istersen toast
+    }
   };
 
   useEffect(() => {
@@ -42,6 +54,8 @@ export default function Header({ openAuth }) {
       window.removeEventListener("mousedown", onClickOutside);
     };
   }, [menuOpen]);
+
+  const displayName = user?.displayName || user?.email || "Account";
 
   return (
     <header
@@ -94,20 +108,41 @@ export default function Header({ openAuth }) {
             <span className={styles.burgerLine} />
           </button>
 
+          {/* ✅ Desktop actions */}
           <div className={styles.desktopActions}>
-            <button className={styles.loginBtn} onClick={handleLoginClick}>
-              Log In
-            </button>
-            <button
-              className={`${styles.loginBtn} ${styles.primaryBtn}`}
-              onClick={handleRegisterClick}
-            >
-              Register
-            </button>
+            {!booting && user ? (
+              <>
+                <button
+                  className={styles.loginBtn}
+                  onClick={() => navigate("/favorites")}
+                >
+                  {displayName}
+                </button>
+                <button
+                  className={`${styles.loginBtn} ${styles.primaryBtn}`}
+                  onClick={handleLogoutClick}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <button className={styles.loginBtn} onClick={handleLoginClick}>
+                  Log In
+                </button>
+                <button
+                  className={`${styles.loginBtn} ${styles.primaryBtn}`}
+                  onClick={handleRegisterClick}
+                >
+                  Register
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
 
+      {/* ✅ Mobile dropdown */}
       {menuOpen && (
         <div className={styles.dropdown}>
           <nav className={styles.dropdownNav}>
@@ -146,15 +181,37 @@ export default function Header({ openAuth }) {
           </nav>
 
           <div className={styles.dropdownActions}>
-            <button className={styles.loginBtnLight} onClick={handleLoginClick}>
-              Log In
-            </button>
-            <button
-              className={`${styles.loginBtnLight} ${styles.primaryBtnLight}`}
-              onClick={handleRegisterClick}
-            >
-              Register
-            </button>
+            {!booting && user ? (
+              <>
+                <button
+                  className={styles.loginBtnLight}
+                  onClick={() => navigate("/favorites")}
+                >
+                  {displayName}
+                </button>
+                <button
+                  className={`${styles.loginBtnLight} ${styles.primaryBtnLight}`}
+                  onClick={handleLogoutClick}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className={styles.loginBtnLight}
+                  onClick={handleLoginClick}
+                >
+                  Log In
+                </button>
+                <button
+                  className={`${styles.loginBtnLight} ${styles.primaryBtnLight}`}
+                  onClick={handleRegisterClick}
+                >
+                  Register
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}
