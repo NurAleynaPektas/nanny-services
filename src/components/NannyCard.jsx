@@ -6,25 +6,20 @@ import { isFavorite, toggleFavorite } from "../utils/favorites";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
-function isAuthed() {
-  try {
-    const raw = localStorage.getItem("nanny-auth");
-    if (!raw) return false;
-    const parsed = JSON.parse(raw);
-    return Boolean(parsed?.email || parsed?.name);
-  } catch {
-    return false;
-  }
-}
+import { useAuth } from "../auth/AuthProvider";
 
 export default function NannyCard({ nanny, openAuth }) {
+  const { user, booting } = useAuth();
+  const uid = user?.uid;
+
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [favorite, setFavorite] = useState(() => isFavorite(nanny?.name));
+
+  const [favorite, setFavorite] = useState(() => isFavorite(uid, nanny?.name));
 
   useEffect(() => {
-    setFavorite(isFavorite(nanny?.name));
-  }, [nanny?.name]);
+    setFavorite(isFavorite(uid, nanny?.name));
+  }, [uid, nanny?.name]);
 
   useEffect(() => {
     if (!isModalOpen) return;
@@ -38,7 +33,9 @@ export default function NannyCard({ nanny, openAuth }) {
   }, [isModalOpen]);
 
   const onToggleFavorite = () => {
-    if (!isAuthed()) {
+    if (booting) return;
+
+    if (!user) {
       iziToast.warning({
         title: "Login required",
         message: "Please log in to add favorites.",
@@ -51,7 +48,7 @@ export default function NannyCard({ nanny, openAuth }) {
 
     const nextFavorite = !favorite;
 
-    toggleFavorite(nanny);
+    toggleFavorite(uid, nanny);
     setFavorite(nextFavorite);
 
     if (nextFavorite) {
@@ -91,13 +88,16 @@ export default function NannyCard({ nanny, openAuth }) {
           type="button"
           className={`${styles.favBtn} ${favorite ? styles.favActive : ""}`}
           onClick={onToggleFavorite}
+          disabled={booting}
           aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
           title={
-            isAuthed()
-              ? favorite
-                ? "Remove from favorites"
-                : "Add to favorites"
-              : "Log in to add favorites"
+            booting
+              ? "Loading..."
+              : user
+                ? favorite
+                  ? "Remove from favorites"
+                  : "Add to favorites"
+                : "Log in to add favorites"
           }
         >
           {favorite ? "★" : "☆"}
